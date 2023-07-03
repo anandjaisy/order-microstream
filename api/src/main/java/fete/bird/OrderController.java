@@ -4,6 +4,7 @@ import io.micronaut.core.annotation.NonNull;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Post;
+import jakarta.annotation.security.PermitAll;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -17,6 +18,7 @@ public class OrderController {
     }
 
     @Post
+    @PermitAll
     Order create(@NonNull @NotNull @Valid @Body Order order) {
         return iOrderRepository.create(order);
     }

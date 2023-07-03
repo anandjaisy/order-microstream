@@ -1,6 +1,40 @@
 micronaut:
   application:
     name: api
+  server:
+    port: 8082
+    cors:
+      enabled: true
+  router:
+    static-resources:
+      swagger:
+        paths: classpath:META-INF/swagger
+        mapping: /swagger/**
+      swagger-ui:
+        paths: classpath:META-INF/swagger/views/swagger-ui
+        mapping: /swagger-ui/**
+  security:
+    authentication: bearer
+    token:
+      jwt:
+        enabled: true
+        signatures:
+          jwks:
+            IdentityServer:
+              url: 'https://localhost:5001/.well-known/openid-configuration/jwks'
+    intercept-url-map:
+      - pattern: /swagger-ui/**
+        httpMethod: GET
+        access:
+          - isAnonymous()
+      - pattern: /swagger/**
+        access:
+          - isAnonymous()
+      - pattern: /microstream/**
+        httpMethod: GET
+        access:
+          - isAnonymous()
+---
 netty:
   default:
     allocator:
