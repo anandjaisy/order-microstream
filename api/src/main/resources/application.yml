@@ -1,0 +1,14 @@
+micronaut:
+  application:
+    name: api
+netty:
+  default:
+    allocator:
+      max-order: 3
+microstream:
+  rest:
+    enabled: true
+  storage:
+    main:
+      root-class: 'fete.bird.RootContainer'
+      storage-directory: 'api/build/order-storage'
