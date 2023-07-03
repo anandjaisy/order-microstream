@@ -1,4 +1,6 @@
 rootProject.name = 'order'
 include('api')
 include 'core'
+include 'infrastructure'
+include 'shared'
 

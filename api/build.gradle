@@ -23,6 +23,7 @@ dependencies {
 
     implementation("io.micronaut.security:micronaut-security-jwt")
     implementation project(':core')
+    runtimeOnly project(':infrastructure')
 }
 
 application {
