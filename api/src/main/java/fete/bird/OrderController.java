@@ -14,18 +14,15 @@ import javax.validation.constraints.NotNull;
 
 @Controller("/order")
 public class OrderController extends BaseController{
-    private final IOrderRepository iOrderRepository;
 
-    public OrderController(IServiceBus iServiceBus, IOrderRepository iOrderRepository) {
+    public OrderController(IServiceBus iServiceBus) {
         super(iServiceBus);
-        this.iOrderRepository = iOrderRepository;
     }
 
     @Post
     @PermitAll
-    OrderDto create(@NonNull @NotNull @Valid @Body Order order) {
-        var result = _iServiceBus.<OrderCreateCommand, Result<OrderDto>>send(new OrderCreateCommand());
-        var test = iOrderRepository.create(order);
+    OrderDto create(@NonNull @NotNull @Valid @Body OrderDto order) {
+        var result = _iServiceBus.<OrderCreateCommand, Result<OrderDto>>send(new OrderCreateCommand(order));
         return result.value;
     }
 }

@@ -11,15 +11,14 @@ import org.slf4j.LoggerFactory;
 import java.util.UUID;
 
 @Introspected
-public record OrderCreateCommand() {
+public record OrderCreateCommand(OrderDto orderDto) {
     @Singleton
-    public record CreateOrderHandler() implements ICommandQueryHandler<OrderCreateCommand, Result<OrderDto>> {
+    public record CreateOrderHandler(IOrderRepository iOrderRepository) implements ICommandQueryHandler<OrderCreateCommand, Result<OrderDto>> {
         private static final Logger LOG = LoggerFactory.getLogger(CreateOrderHandler.class);
         @Override
         public Result<OrderDto> handler(OrderCreateCommand orderCreateCommand) {
             LOG.info("Command: Create the new order");
-            //return iOrderService.create(orderCreateCommand.order);
-            return new Result<>(new OrderDto(UUID.randomUUID(), "", "", ""));
+            return iOrderRepository.create(orderCreateCommand.orderDto);
         }
 
         @Override

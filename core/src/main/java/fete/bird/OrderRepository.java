@@ -1,5 +1,7 @@
 package fete.bird;
 
+import fete.bird.model.Result;
+import fete.bird.model.order.OrderDto;
 import io.micronaut.microstream.RootProvider;
 import io.micronaut.microstream.annotations.StoreParams;
 import jakarta.inject.Singleton;
@@ -16,14 +18,14 @@ public class OrderRepository implements IOrderRepository{
     }
 
     @Override
-    public Order create(Order order) {
+    public Result<OrderDto> create(OrderDto order) {
         Map<UUID, Order> root = rootProvider.root().getOrders();
-        return performCreate(root, order);
+        return performCreate(root, new Order(order.id(), order.name(), order.description(), order.productId()));
     }
 
     @StoreParams("root")
-    protected Order performCreate(Map<UUID, Order> root, Order Order) {
-        root.put(Order.getId(), Order);
-        return Order;
+    protected Result<OrderDto> performCreate(Map<UUID, Order> root, Order order) {
+        root.put(order.getId(), order);
+        return new Result<>(new OrderDto(order.getId(), order.getName(), order.getDescription(), order.getProductId()));
     }
 }
